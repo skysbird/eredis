@@ -23,19 +23,20 @@ MSET and MGET:
     {ok, Values} = eredis:q(C, ["MGET" | ["key1", "key2", "key3"]]).
 
 Transaction support:
-    C = c(),
-    Key = "redis_test_key_foo",
+
+    C = c().
+    Key = "redis_test_key_foo".
     %transaction finished
-    ?assertEqual({ok, <<"OK">>}, eredis:q(C, ["watch", Key])),
-    ?assertEqual({ok, <<"OK">>}, eredis:q(C, ["multi"])),
-    R1 = eredis:q(C, ["exec"]),
-    ?assertMatch({ok, []}, R1),
+    ?assertEqual({ok, <<"OK">>}, eredis:q(C, ["watch", Key])).
+    ?assertEqual({ok, <<"OK">>}, eredis:q(C, ["multi"])).
+    R1 = eredis:q(C, ["exec"]).
+    ?assertMatch({ok, []}, R1).
 	
     % transaction failed ,will return {ok,none} after send the exec command
-    ?assertEqual({ok, <<"OK">>}, eredis:q(C, ["watch", Key])),
-    ?assertEqual({ok, <<"OK">>}, eredis:q(C, ["set", Key,bar])),
-    ?assertEqual({ok, <<"OK">>}, eredis:q(C, ["multi"])), 
-    R = eredis:q(C, ["exec"]),
+    ?assertEqual({ok, <<"OK">>}, eredis:q(C, ["watch", Key])).
+    ?assertEqual({ok, <<"OK">>}, eredis:q(C, ["set", Key,bar])).
+    ?assertEqual({ok, <<"OK">>}, eredis:q(C, ["multi"])).
+    R = eredis:q(C, ["exec"]).
     ?assertMatch({ok, none}, R).
 
 EUnit tests:
