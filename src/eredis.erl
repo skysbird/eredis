@@ -16,7 +16,7 @@
 -define(TIMEOUT, 5000).
 
 -export([start_link/0, start_link/2, start_link/3, start_link/4,
-         q/2, q/3]).
+         q/2, q/3,stop/1]).
 
 %% Exported for testing
 -export([create_multibulk/1]).
@@ -42,6 +42,8 @@ start_link(Host, Port,  Database, Password) when is_list(Host);
                                                  is_list(Password) ->
     eredis_client:start_link(Host, Port, Database, Password).
 
+stop(Client)->
+    eredis_client:stop(Client).
 
 -spec q(Client::pid(), Command::iolist()) ->
                {ok, Value::binary()} | {error, Reason::binary()}.

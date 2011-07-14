@@ -55,7 +55,7 @@ start_link(Host, Port, Database, Password) ->
     gen_server:start_link(?MODULE, [Host, Port, Database, Password], []).
 
 stop(Pid) ->
-    gen_server:call(Pid, stop).
+    gen_server:cast(Pid, stop).
 
 %%====================================================================
 %% gen_server callbacks
@@ -85,6 +85,8 @@ handle_call(stop, _From, State) ->
 handle_call(_Request, _From, State) ->
     {reply, unknown_request, State}.
 
+handle_cast(stop, State) ->
+    {stop, normal, State};
 
 handle_cast(_Msg, State) ->
     {noreply, State}.
